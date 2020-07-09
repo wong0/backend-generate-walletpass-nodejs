@@ -15,6 +15,7 @@
     "@walletpass/pass-js": "^6.9.1",
     "babel-polyfill": "^6.0.16",
     "cookie-parser": "~1.4.4",
+    "csvtojson": "^2.0.10",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "morgan": "~1.9.1",

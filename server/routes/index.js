@@ -1,4 +1,6 @@
 import express from 'express';
+import fs from 'fs';
+
 import { createLoyaltyCardPass } from '../../CouponPassCreator';
 
 var router = express.Router();
@@ -27,5 +29,73 @@ router.post('/wallet-pass', async (req, res, next) => {
   res.type('application/vnd.apple.pkpass');
   res.send(body)
 });
+
+
+/**
+ * Input: CSV
+ * Output: Wallet Passes
+ */
+router.post('/wallet-passes', async (req, res, next) => {
+  console.log('/wallet-passes', 'req.body', req.body);
+
+  const data = req.body;
+
+  let responseBody = [];
+
+  data.forEach(async ({organizationName, description, logoText, serialNumber}) => {
+    // write pass to files
+    // each file is named with "serialNumber"
+
+    const fileContent = await (await createLoyaltyCardPass(organizationName, description, logoText, serialNumber)).asBuffer();
+
+    const filename = `${organizationName}-${serialNumber}.pkpass`;
+    console.log('filename', filename);
+    responseBody = [
+      ...responseBody,
+      filename,
+    ];
+
+    await fs.writeFile(
+      filename, 
+      fileContent, 
+      function (err) {
+        if (err) return console.log(err);
+      }
+    );
+  });
+
+  res.send({
+    success: true, 
+    data: responseBody,
+  });
+});
+
+// router.post('/wallet-passes', async (req, res, next) => {
+  // console.log('/wallet-passes', 'req.body', req.body);
+
+  // // the buffer here containes your file data in a byte array 
+  // if (!req.file) {
+  //   console.log('req.file missing');
+  //   return;
+  // }
+
+  // var csvBuffer = req.body;
+
+  // console.log('csv', csvBuffer);
+
+  // console.log('Transform CSV to JSON array');
+
+  // const csv = require('csvtojson');
+
+  // csv({
+  //   noheader:true,
+  //   output: "csv"
+  // })
+  // .fromString(csvBuffer)
+  // .then((csvRow)=>{ 
+  //   console.log('csvRow', csvRow);
+  // });
+
+// });
 
 export default router;
