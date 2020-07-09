@@ -1,16 +1,16 @@
 const Template = require("@walletpass/pass-js");
 const fs = require("fs"); 
 
-async function createLoyaltyCardPass(name, email, phone, policyNumber) {
+async function createLoyaltyCardPass(organizationName, description, logoText, serialNumber) {
   const template = new Template.Template("storeCard", {
     passTypeIdentifier: "pass.com.example.firstwalletpass",
-    serialNumber: "E5982H-I2",
+    serialNumber: serialNumber, // "E5982H-I2",
     teamIdentifier: "L8JW59293P",
     webServiceURL: "https://example.com/passes/",
     authenticationToken : "vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc",
     backgroundColor: "red",
     sharingProhibited: true,
-    organizationName: "Trove",
+    organizationName,
     barcode : {
         message : "123456789",
         format : "PKBarcodeFormatPDF417",
@@ -42,9 +42,9 @@ async function createLoyaltyCardPass(name, email, phone, policyNumber) {
           }
         ]
     },
-    organizationName : "Paw Planet",
-    description : "Paw Planet Coupon",
-    logoText : "Paw Planet",
+    organizationName,
+    description,
+    logoText,
     foregroundColor : "rgb(255, 255, 255)",
     backgroundColor : "rgb(206, 140, 53)",
   }, null, null, null);

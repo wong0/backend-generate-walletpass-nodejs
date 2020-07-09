@@ -10,20 +10,20 @@ router.get('/', (req, res, next) => {
 
 // ReferenceError: regeneratorRuntime is not defined
 
-router.get('/wallet-pass', async (req, res, next) => {
+router.post('/wallet-pass', async (req, res, next) => {
   //code to perform particular action.
   //To access POST variable use req.body()methods.
   console.log('req.body', req.body);
   
   // extract user details
   const {
-    name,
-    email,
-    phone,
-    policyNumber
+    organizationName,
+    description,
+    logoText,
+    serialNumber
   } = req.body;
 
-  const body = await (await createLoyaltyCardPass(name, email, phone, policyNumber)).asBuffer();
+  const body = await (await createLoyaltyCardPass(organizationName, description, logoText, serialNumber)).asBuffer();
   res.type('application/vnd.apple.pkpass');
   res.send(body)
 });

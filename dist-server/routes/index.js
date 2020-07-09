@@ -25,13 +25,13 @@ router.get('/', function (req, res, next) {
   });
 }); // ReferenceError: regeneratorRuntime is not defined
 
-router.get('/wallet-pass',
+router.post('/wallet-pass',
 /*#__PURE__*/
 function () {
   var _ref = (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
   _regenerator["default"].mark(function _callee(req, res, next) {
-    var _req$body, name, email, phone, policyNumber, body;
+    var _req$body, organizationName, description, logoText, serialNumber, body;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
@@ -41,9 +41,9 @@ function () {
             //To access POST variable use req.body()methods.
             console.log('req.body', req.body); // extract user details
 
-            _req$body = req.body, name = _req$body.name, email = _req$body.email, phone = _req$body.phone, policyNumber = _req$body.policyNumber;
+            _req$body = req.body, organizationName = _req$body.organizationName, description = _req$body.description, logoText = _req$body.logoText, serialNumber = _req$body.serialNumber;
             _context.next = 4;
-            return (0, _CouponPassCreator.createLoyaltyCardPass)(name, email, phone, policyNumber);
+            return (0, _CouponPassCreator.createLoyaltyCardPass)(organizationName, description, logoText, serialNumber);
 
           case 4:
             _context.next = 6;
