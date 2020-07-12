@@ -2,6 +2,7 @@ import express from 'express';
 import fs from 'fs';
 
 import { createLoyaltyCardPass } from '../../CouponPassCreator';
+import { createInsuranceMembershipPass } from '../../InsuranceMembershipPassCreator';
 
 var router = express.Router();
 
@@ -11,6 +12,60 @@ router.get('/', (req, res, next) => {
 });
 
 // ReferenceError: regeneratorRuntime is not defined
+
+router.post('/insurance-membership-pass', async (req, res, next) => {
+  // code to perform particular action
+  // To access POST variable use req.body() methods.
+  console.log('req.body', req.body);
+
+  // extract user details
+  const {
+    familyName,
+    givenNames,
+    sex,
+    nationality,
+    idDocType,
+    policyNumber,
+
+    organizationName,
+    description,
+    logoText,
+    serialNumber
+  } = req.body;
+
+  console.log(
+    'familyName', familyName,
+    'givenNames', givenNames,
+    'sex', sex,
+    'nationality', nationality,
+    'idDocType', idDocType,
+    'policyNumber', policyNumber,
+
+    'organizationName', organizationName,
+    'description', description,
+    'logoText', logoText,
+    'serialNumber', serialNumber
+  )
+
+  const body = await (await createInsuranceMembershipPass(
+    familyName,
+    givenNames,
+    sex,
+    nationality,
+    idDocType,
+    policyNumber,
+
+    organizationName,
+    description,
+    logoText,
+    serialNumber
+  )).asBuffer();
+
+  res.json({
+    success: true,
+  });
+
+});
 
 router.post('/wallet-pass', async (req, res, next) => {
   //code to perform particular action.
@@ -25,11 +80,19 @@ router.post('/wallet-pass', async (req, res, next) => {
     serialNumber
   } = req.body;
 
-  const body = await (await createLoyaltyCardPass(organizationName, description, logoText, serialNumber)).asBuffer();
-  res.type('application/vnd.apple.pkpass');
-  res.send(body)
-});
+  const body = await (await createLoyaltyCardPass(
+    organizationName, 
+    description, 
+    logoText, 
+    serialNumber
+  )).asBuffer();
+  // res.type('application/vnd.apple.pkpass');
+  // res.type('application/json');
 
+  res.json({
+    success: true,
+  });
+});
 
 /**
  * Input: CSV

@@ -8,6 +8,10 @@ import usersRouter from './routes/users';
 
 var app = express();
 
+var cors = require('cors');
+app.use(cors());
+app.options('*', cors());
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

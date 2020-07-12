@@ -20,6 +20,11 @@ var _index = _interopRequireDefault(require("./routes/index"));
 var _users = _interopRequireDefault(require("./routes/users"));
 
 var app = (0, _express["default"])();
+
+var cors = require('cors');
+
+app.use(cors());
+app.options('*', cors());
 app.use((0, _morgan["default"])('dev'));
 app.use(_express["default"].json());
 app.use(_express["default"].urlencoded({
